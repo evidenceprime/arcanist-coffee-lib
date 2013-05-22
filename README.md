@@ -1,4 +1,4 @@
 arcanist-coffee-lib
 ===================
 
-Set of Arcanist classes for working with Coffeescript applications
+Set of Arcanist classes for working with applications written in CoffeeScript
