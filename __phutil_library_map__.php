@@ -12,6 +12,7 @@ phutil_register_library_map(array(
   array(
     'ArcanistCoffeeLintLinter' => 'lint/ArcanistCoffeeLintLinter.php',
     'ArcanistJsonlintLinter' => 'lint/ArcanistJsonlintLinter.php',
+    'ArcanistMochaSpecificationLinter' => 'lint/ArcanistMochaSpecificationLinter.php',
   ),
   'function' =>
   array(
@@ -20,5 +21,6 @@ phutil_register_library_map(array(
   array(
     'ArcanistCoffeeLintLinter' => 'ArcanistLinter',
     'ArcanistJsonlintLinter' => 'ArcanistLinter',
+    'ArcanistMochaSpecificationLinter' => 'ArcanistLinter',
   ),
 ));
