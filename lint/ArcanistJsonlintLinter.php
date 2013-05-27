@@ -126,7 +126,9 @@ final class ArcanistJsonlintLinter extends ArcanistLinter {
         continue;
       }
 
-      $info = explode(':', $err, 2)[1];
+      $tmp = explode(':', $err, 2);
+      $info = $tmp[1];
+
       $fields = explode(',', $info, 3);
       $this->raiseLintAtLine(
         $this->extractNumber($fields[0]),
