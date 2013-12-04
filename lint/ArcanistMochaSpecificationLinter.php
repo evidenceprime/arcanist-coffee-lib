@@ -26,7 +26,7 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
   }
 
   public function lintPath($path) {
-    if ($this->isBinaryFile($path)) {
+    if ($this->getEngine()->isBinaryFile($path)) {
       return;
     }
 
