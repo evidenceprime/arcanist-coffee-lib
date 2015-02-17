@@ -51,7 +51,7 @@ final class ArcanistCoffeeLintLinter extends ArcanistLinter {
   public function getCoffeeLintOptions() {
     $working_copy = $this->getEngine()->getWorkingCopy();
     $config = $working_copy->getConfig('lint.coffeelint.config');
-    $options = '--csv';
+    $options = '--reporter csv';
 
     if ($config !== null) {
       $config = Filesystem::resolvePath(
