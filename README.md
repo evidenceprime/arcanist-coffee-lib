@@ -65,7 +65,7 @@ to in your `.arcconfig` with (paths are relative to `.arcconfig` location):
 
 ## License
 
-Copyright 2013 Synaway sp. z o.o.
+Copyright 2015 Evidence Prime, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
