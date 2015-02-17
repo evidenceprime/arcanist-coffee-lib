@@ -150,6 +150,7 @@ final class ArcanistCoffeeLintLinter extends ArcanistLinter {
     }
 
     $errors = explode("\n", $stdout);
+    array_shift($errors);
 
     foreach ($errors as $err) {
       if (!strlen($err)) {
