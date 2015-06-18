@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A wrapper for CoffeeLint linter, heavily inspired by ArcanistJSHintLinter. 
+ * A wrapper for CoffeeLint linter, heavily inspired by ArcanistJSHintLinter.
  * To use this linter, you need to install coffeelint through NPM.
  *
  * If you have NodeJS installed you should be able to install coffeelint with
@@ -21,7 +21,7 @@
  *
  * With CoffeeLint 0.5.5+, you can run ##coffeelint --makeconfig## to dump
  * JSON with all the options available.
- * Consult CoffeeLint homepage on the details of the config file. 
+ * Consult CoffeeLint homepage on the details of the config file.
  *
  * For more options see http://www.coffeelint.org/
  */
@@ -50,7 +50,7 @@ final class ArcanistCoffeeLintLinter extends ArcanistLinter {
 
   public function getCoffeeLintOptions() {
     $working_copy = $this->getEngine()->getWorkingCopy();
-    $config = $working_copy->getConfig('lint.coffeelint.config');
+    $config = $working_copy->getProjectConfig('lint.coffeelint.config');
     $options = '--reporter csv';
 
     if ($config !== null) {
@@ -72,8 +72,8 @@ final class ArcanistCoffeeLintLinter extends ArcanistLinter {
 
   private function getCoffeeLintBin() {
     $working_copy = $this->getEngine()->getWorkingCopy();
-    $prefix = $working_copy->getConfig('lint.coffeelint.prefix');
-    $bin = $working_copy->getConfig('lint.coffeelint.bin');
+    $prefix = $working_copy->getProjectConfig('lint.coffeelint.prefix');
+    $bin = $working_copy->getProjectConfig('lint.coffeelint.bin');
 
     if ($bin === null) {
       $bin = "coffeelint";
@@ -128,7 +128,9 @@ final class ArcanistCoffeeLintLinter extends ArcanistLinter {
         $coffeelint_options);
     }
 
-    foreach (Futures($futures)->limit(8) as $path => $future) {
+    $futures = id(new FutureIterator($futures))
+      ->limit(8);
+    foreach ($futures as $path => $future) {
       $this->results[$path] = $future->resolve();
     }
   }
