@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A wrapper for jsonlint linter, heavily inspired by ArcanistJSHintLinter. 
+ * A wrapper for jsonlint linter, heavily inspired by ArcanistJSHintLinter.
  * To use this linter, you need to install jsonlint through NPM.
  *
  * The node.js implementation of linter was chosen over PHP or Python one
@@ -42,8 +42,8 @@ final class ArcanistJsonlintLinter extends ArcanistLinter {
 
   private function getJsonlintBin() {
     $working_copy = $this->getEngine()->getWorkingCopy();
-    $prefix = $working_copy->getConfig('lint.jsonlint.prefix');
-    $bin = $working_copy->getConfig('lint.jsonlint.bin');
+    $prefix = $working_copy->getProjectConfig('lint.jsonlint.prefix');
+    $bin = $working_copy->getProjectConfig('lint.jsonlint.bin');
 
     if ($bin === null) {
       $bin = "jsonlint";
