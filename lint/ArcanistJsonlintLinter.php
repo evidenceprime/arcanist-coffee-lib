@@ -96,8 +96,9 @@ final class ArcanistJsonlintLinter extends ArcanistLinter {
         $jsonlint_options,
         $filepath);
     }
-
-    foreach (Futures($futures)->limit(8) as $path => $future) {
+    $futures = id(new FutureIterator($futures))
+      ->limit(8);
+    foreach ($futures as $path => $future) {
       $this->results[$path] = $future->resolve();
     }
   }
