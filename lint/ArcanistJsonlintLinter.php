@@ -40,6 +40,8 @@ final class ArcanistJsonlintLinter extends ArcanistLinter {
     );
   }
 
+  public $results = array();
+
   private function getJsonlintBin() {
     $working_copy = $this->getEngine()->getWorkingCopy();
     $prefix = $working_copy->getProjectConfig('lint.jsonlint.prefix');

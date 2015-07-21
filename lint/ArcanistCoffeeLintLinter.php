@@ -48,6 +48,8 @@ final class ArcanistCoffeeLintLinter extends ArcanistLinter {
     );
   }
 
+  public $results = array();
+
   public function getCoffeeLintOptions() {
     $working_copy = $this->getEngine()->getWorkingCopy();
     $config = $working_copy->getProjectConfig('lint.coffeelint.config');
