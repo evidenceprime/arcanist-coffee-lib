@@ -4,6 +4,7 @@
  */
 final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
   const LINT_ONLY_DIRECTIVE = 0;
+  const LINT_NO_MATCHER = 1;
 
   public function getLinterName() {
     return 'MochaSpecs';
@@ -17,7 +18,8 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
 
   public function getLintNameMap() {
     return array(
-      self::LINT_ONLY_DIRECTIVE => '"only" directive left in Mocha specification'
+      self::LINT_ONLY_DIRECTIVE => '"only" directive left in Mocha specification',
+      self::LINT_NO_MATCHER => 'invalid Chai assertion: matcher (e.g. `equal`) needs to come last'
     );
   }
 
@@ -32,6 +34,10 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
 
     $lines = phutil_split_lines($this->getData($path), false);
 
+    // 'at' is also in this list, but it is Backbone.Colllection method as well
+    $chaiLanguageChain = join('|', array('be', 'been', 'is', 'and', 'has', 'have',
+      'with', 'that', 'of', 'same', 'not'));
+
     foreach ($lines as $lineno => $line) {
       // Check for 'it.only' or 'describe.only'
       if (preg_match('@^\s*(it|describe)\.only@', $line)) {
@@ -40,6 +46,12 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
           0,
           self::LINT_ONLY_DIRECTIVE,
           "This directive will cause other tests to be skipped");
+      } else if (preg_match("@\.($chaiLanguageChain)( |\()@", $line)) {
+        $this->raiseLintAtLine(
+          $lineno + 1,
+          0,
+          self::LINT_NO_MATCHER,
+          "This assertion is incomplete and will succeed for any input");
       }
     }
   }
