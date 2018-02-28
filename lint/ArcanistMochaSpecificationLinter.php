@@ -5,7 +5,7 @@
 final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
   const LINT_ONLY_DIRECTIVE = 0;
   const LINT_NO_MATCHER = 1;
-  const LINT_HAS_METHOD_WARNING = 1;
+  const LINT_HAS_METHOD_WARNING = 2;
 
   public function getLinterName() {
     return 'MochaSpecs';
@@ -14,7 +14,7 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
   public function getLintSeverityMap() {
     return array(
       self::LINT_ONLY_DIRECTIVE => ArcanistLintSeverity::SEVERITY_ERROR,
-      self::LINT_HAS_METHOD_WARNING => ArcanistLintSeverity::SEVERITY_ERROR
+      self::LINT_HAS_METHOD_WARNING => ArcanistLintSeverity::SEVERITY_WARNING
     );
   }
 
