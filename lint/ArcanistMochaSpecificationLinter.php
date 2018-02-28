@@ -5,7 +5,7 @@
 final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
   const LINT_ONLY_DIRECTIVE = 0;
   const LINT_NO_MATCHER = 1;
-  const LINT_HAS_METHOD_WARNING = 2;
+  const LINT_NO_MATCHER_WARNING = 2;
 
   public function getLinterName() {
     return 'MochaSpecs';
@@ -14,7 +14,7 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
   public function getLintSeverityMap() {
     return array(
       self::LINT_ONLY_DIRECTIVE => ArcanistLintSeverity::SEVERITY_ERROR,
-      self::LINT_HAS_METHOD_WARNING => ArcanistLintSeverity::SEVERITY_WARNING
+      self::LINT_NO_MATCHER_WARNING => ArcanistLintSeverity::SEVERITY_WARNING
     );
   }
 
@@ -22,7 +22,7 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
     return array(
       self::LINT_ONLY_DIRECTIVE => '"only" directive left in Mocha specification',
       self::LINT_NO_MATCHER => 'invalid Chai assertion: matcher (e.g. `equal`) needs to come last',
-      self::LINT_HAS_METHOD_WARNING => 'invalid Chai assertion: matcher (e.g. `has`) needs to come last'
+      self::LINT_NO_MATCHER_WARNING => 'Possible invalid Chai assertion: matcher (e.g. `has`) needs to come last'
     );
   }
 
@@ -41,6 +41,8 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
     $chaiLanguageChain = join('|', array('be', 'been', 'is', 'and', 'have',
       'with', 'that', 'of', 'same', 'not'));
 
+    $chaiLanguageWarningChain = 'has';
+
     foreach ($lines as $lineno => $line) {
       // Check for 'it.only' or 'describe.only'
       if (preg_match('@^\s*(it|describe)\.only@', $line)) {
@@ -55,11 +57,11 @@ final class ArcanistMochaSpecificationLinter extends ArcanistLinter {
           0,
           self::LINT_NO_MATCHER,
           "This assertion is incomplete and will succeed for any input");
-      } else if (preg_match("@\.(has)( |\()@", $line)) {
+      } else if (preg_match("@\.($chaiLanguageWarningChain)( |\()@", $line)) {
         $this->raiseLintAtLine(
           $lineno + 1,
           0,
-          self::LINT_HAS_METHOD_WARNING,
+          self::LINT_NO_MATCHER_WARNING,
           "This assertion is incomplete and it might succeed for any input, but it might be throwed when using Immutable.has in test");
       }
     }
